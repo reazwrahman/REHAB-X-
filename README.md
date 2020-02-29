@@ -1,11 +1,13 @@
 REHAB X CENTRAL SOFTWARE DEVELOPMENT PLATFORM
+
 1. EMBEDDED SOFTWARE
-    -HAPTIC MOTORS
-    -MPU6050 SENSORS
-    -3D MODELING
+    HAPTIC MOTORS
+    MPU6050 SENSORS
+    3D MODELING
 
+Installing PoseNET demos
 
-2. Installing PoseNET demos Use terminal and enter commands
+2. Use terminal and enter commands
 
 >> cd rehab-x
 
