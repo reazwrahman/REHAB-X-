@@ -29,7 +29,7 @@ Installing PoseNET demos
 
 >> yarn watch
 
-Installing PoseNET demos
+Installing Exercise counter
 
 1. Use terminal and enter commands
 
