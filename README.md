@@ -1,16 +1,11 @@
 REHAB X CENTRAL SOFTWARE DEVELOPMENT PLATFORM
-  1)EMBEDDED SOFTWARE
+1. EMBEDDED SOFTWARE
     -HAPTIC MOTORS
     -MPU6050 SENSORS
     -3D MODELING
-  2) REAL TIME HUMAN POSE ESTIMATION
-    -
-    -
 
-///////////////////////// Below was added by Eric /////////////////////////
 
-1. Copied and Modified 'package.json' from PoseNet folder
-2. Use terminal and enter commands
+2. Installing PoseNET demos Use terminal and enter commands
 
 >> cd rehab-x
 
