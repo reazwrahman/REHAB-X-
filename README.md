@@ -10,39 +10,42 @@
 ### Installing demos
 
 1. Use terminal and enter commands
-
->> cd rehab-x
-
+```sh
+cd rehab-x
+```
 2. Installs DEPENDENCIES, which adds 'node_modules' and 'yarn.lock' file to folder
-
->> yarn
-
->> yarn build && yarn yalc publish
-
->> cd demos
-
+```sh
+yarn
+```
+```sh
+yarn build && yarn yalc publish
+```
+```sh
+cd demos
+```
 3. Install DEPENDENCIES again
-
->> yarn
-
+```sh
+yarn
+```
 4. Links the local posenet to the demos
-
->> yarn yalc link @tensorflow-models/posenet
-
+```sh
+yarn yalc link @tensorflow-models/posenet
+```
 5. Finally, enjoy your new toy!
-
->> yarn watch
-
-Installing Exercise counter
+```sh
+yarn watch
+```
+### Installing Exercise counter
 
 1. Use terminal and enter commands
-
->> cd rehab-x/exercise
-
+```sh
+cd rehab-x/exercise
+```
 2. Installs DEPENDENCIES,
-
->> yarn
-
+```sh
+yarn
+```
 3. Enjoy!
-
->> yarn watch
+```sh
+yarn watch
+```
