@@ -17,14 +17,16 @@
 import * as posenet from '@tensorflow-models/posenet';
 import * as tf from '@tensorflow/tfjs';
 
-const color = 'aqua';
+const color = '#05ed09';
 const boundingBoxColor = 'red';
-const lineWidth = 2;
+const lineWidth = 5;
 
+/* NOT being called by 'camera.js' because its NOT needed /////////////////////
 export const tryResNetButtonName = 'tryResNetButton';
 export const tryResNetButtonText = '[New] Try ResNet50';
 const tryResNetButtonTextCss = 'width:100%;text-decoration:underline;';
 const tryResNetButtonBackgroundCss = 'background:#e61d5f;';
+*/
 
 function isAndroid() {
   return /Android/i.test(navigator.userAgent);
@@ -51,11 +53,14 @@ function setDatGuiPropertyCss(propertyText, liCssString, spanCssString = '') {
   }
 }
 
+/* NOT being called by 'camera.js' because its NOT needed /////////////////////
 export function updateTryResNetButtonDatGuiCss() {
   setDatGuiPropertyCss(
       tryResNetButtonText, tryResNetButtonBackgroundCss,
       tryResNetButtonTextCss);
 }
+*/
+
 
 /**
  * Toggles between the loading UI and the main canvas UI.
@@ -94,17 +99,37 @@ export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
   ctx.stroke();
 }
 
-/**
+/*
  * Draws a pose skeleton by looking up all adjacent keypoints/joints
  */
 export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+
+///////////////////////////// var for prototype ////////////////////////////////
+  let rightWrist = keypoints.find(point => point.part === 'rightWrist');
+  let rightElbow = keypoints.find(point => point.part === 'rightElbow');
+  let rightShoulder = keypoints.find(point => point.part === 'rightShoulder');
+///////////////////////////////////// END //////////////////////////////////////
+
   const adjacentKeyPoints =
       posenet.getAdjacentKeyPoints(keypoints, minConfidence);
 
-  adjacentKeyPoints.forEach((keypoints) => {
+///////////////////////////////// prototype ////////////////////////////////////
+/*  adjacentKeyPoints((rightWrist) => {
     drawSegment(
         toTuple(keypoints[0].position), toTuple(keypoints[1].position), color,
         scale, ctx);
+  }
+*/
+/////////////////////////////// END of prototype ///////////////////////////////
+
+  adjacentKeyPoints.forEach((keypoints) => {
+    drawSegment(
+        toTuple(keypoints[0].position),
+        toTuple(keypoints[1].position),
+        color,
+        scale,
+        ctx
+    );
   });
 }
 
@@ -112,7 +137,7 @@ export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
  * Draw pose keypoints onto a canvas
  */
 export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-  for (let i = 0; i < keypoints.length; i++) {
+/*  for (let i = 0; i < keypoints.length; i++) {
     const keypoint = keypoints[i];
 
     if (keypoint.score < minConfidence) {
@@ -120,8 +145,31 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     }
 
     const {y, x} = keypoint.position;
-    drawPoint(ctx, y * scale, x * scale, 3, color);
+    drawPoint(ctx, y * scale, x * scale, 6, color); //////////////////////////// originally -- 3
   }
+*/
+
+////////////////////// drawKeypoints FROM version 0 ////////////////////////////
+  let rightWrist = keypoints.find(point => point.part === 'rightWrist');
+  let rightElbow = keypoints.find(point => point.part === 'rightElbow');
+  let rightShoulder = keypoints.find(point => point.part === 'rightShoulder');
+
+  if (rightWrist.score > minConfidence) {
+    const {y, x} = rightWrist.position;
+    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight
+  }
+
+  if (rightElbow.score > minConfidence) {
+    const {y, x} = rightElbow.position;
+    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight ELBOW
+  }
+
+  if (rightShoulder.score > minConfidence) {
+    const {y, x} = rightShoulder.position;
+    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight SHOULDER
+  }
+///////////////////////// END version 0 ////////////////////////////////////////
+
 }
 
 /**
@@ -133,8 +181,11 @@ export function drawBoundingBox(keypoints, ctx) {
   const boundingBox = posenet.getBoundingBox(keypoints);
 
   ctx.rect(
-      boundingBox.minX, boundingBox.minY, boundingBox.maxX - boundingBox.minX,
-      boundingBox.maxY - boundingBox.minY);
+    boundingBox.minX,
+    boundingBox.minY,
+    boundingBox.maxX - boundingBox.minX,
+    boundingBox.maxY - boundingBox.minY
+  );
 
   ctx.strokeStyle = boundingBoxColor;
   ctx.stroke();
@@ -190,7 +241,7 @@ export function drawHeatMapValues(heatMapValues, outputStride, canvas) {
  * Used by the drawHeatMapValues method to draw heatmap points on to
  * the canvas
  */
-function drawPoints(ctx, points, radius, color) {
+function drawPoints(ctx, points, radius, color) { ////////////////////////////// NOT the same as drawPoint
   const data = points.buffer().values;
 
   for (let i = 0; i < data.length; i += 2) {
@@ -211,11 +262,8 @@ function drawPoints(ctx, points, radius, color) {
  * Read our blog post for a description of PoseNet's offset vector outputs
  * https://medium.com/tensorflow/real-time-human-pose-estimation-in-the-browser-with-tensorflow-js-7dd0bc881cd5
  */
-export function drawOffsetVectors(
-    heatMapValues, offsets, outputStride, scale = 1, ctx) {
-  const offsetPoints =
-      posenet.singlePose.getOffsetPoints(heatMapValues, outputStride, offsets);
-
+export function drawOffsetVectors(heatMapValues, offsets, outputStride, scale = 1, ctx){
+  const offsetPoints = posenet.singlePose.getOffsetPoints(heatMapValues, outputStride, offsets);
   const heatmapData = heatMapValues.buffer().values;
   const offsetPointsData = offsetPoints.buffer().values;
 

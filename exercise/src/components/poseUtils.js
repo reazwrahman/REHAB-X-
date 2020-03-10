@@ -8,7 +8,7 @@ import { drawKeypoints, drawSkeleton } from './demo_util';
 
 import { imagePaths, imageCategories } from '../dataset';
 
-export const mediaSize = 500;
+export const mediaSize = 500;       // I don't know what these CONST are for
 const imageScaleFactor = 0.5;
 const outputStride = 32;
 const flipHorizontal = false;

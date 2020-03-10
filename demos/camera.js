@@ -18,7 +18,33 @@ import * as posenet from '@tensorflow-models/posenet';
 import dat from 'dat.gui';
 import Stats from 'stats.js';
 
-import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
+import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI} from './demo_util'; //  tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss --REMOVED
+
+////////////////////////////// SQUAT import STUFF /////////////////////////////
+import { useEffect, useState } from 'react';
+//import * as posenet from '@tensorflow-models/posenet';
+import similarity from 'compute-cosine-similarity';
+import l2norm from 'compute-l2norm';
+import VPTreeFactory from 'vptree';
+import { sortBy, chain } from 'lodash';
+//import { drawKeypoints, drawSkeleton } from './demo_util';
+
+//import { imagePaths, imageCategories } from './dataset'; // originally '../dataset'
+
+export const mediaSize = 500;       // videoHeight and videoWidth version of s-c (?) Used by VideoSelector
+const imageScaleFactor = 0.5;       // multiplier: defaultMobileNetMultiplier (?)
+const outputStride = 32;            // outputStride: defaultMobileNetStride = 16 (?)
+const flipHorizontal = false;       // redifined in single and multipose with const flipPoseHorizontal = true;
+const minPartConfidence = 0.1;      // minPartConfidence: 0.5 (?) from singlepose
+const minConsecutivePoses = 10;     // ?????????????????????????????????????????
+
+export async function loadPoseData() {
+  const net = await posenet.load();
+  const poseData = await buildPoseData(net, imagePaths);
+  const vptree = await buildVPTree(poseData);
+  return { net, vptree };
+}
+///////////////////////////////// SQUAT END ///////////////////////////////////
 
 const videoWidth = 600;
 const videoHeight = 500;
@@ -28,12 +54,14 @@ const stats = new Stats();
  * Loads a the camera to be used in the demo
  *
  */
+
+// A version of this is wrapped up in a class by React in Video.js
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
         'Browser API navigator.mediaDevices.getUserMedia not available');
   }
-
+      // these 3 lines are different in Video.js
   const video = document.getElementById('video');
   video.width = videoWidth;
   video.height = videoHeight;
@@ -67,14 +95,14 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = 500;
+const defaultMobileNetInputResolution = 300; // defult was 500
 
 const defaultResNetMultiplier = 1.0;
 const defaultResNetStride = 32;
 const defaultResNetInputResolution = 250;
 
 const guiState = {
-  algorithm: 'multi-pose',
+  algorithm: 'single-pose', // 'single-pose' OR 'multi-pose'
   input: {
     architecture: 'MobileNetV1',
     outputStride: defaultMobileNetStride,
@@ -114,11 +142,12 @@ function setupGui(cameras, net) {
   const gui = new dat.GUI({width: 300});
 
   let architectureController = null;
-  guiState[tryResNetButtonName] = function() {
+/*  guiState[tryResNetButtonName] = function() {    // NOT NEEDED
     architectureController.setValue('ResNet50')
   };
-  gui.add(guiState, tryResNetButtonName).name(tryResNetButtonText);
-  updateTryResNetButtonDatGuiCss();
+*/
+  //gui.add(guiState, tryResNetButtonName).name(tryResNetButtonText);/////////// removes 'tryRESNET' button
+  //updateTryResNetButtonDatGuiCss(); ////////////////////////////////////////// removed
 
   // The single-pose algorithm is faster and simpler but requires only one
   // person to be in the frame or results will be innaccurate. Multi-pose works
@@ -149,7 +178,7 @@ function setupGui(cameras, net) {
     guiState.inputResolution = inputResolution;
     guiState.input.inputResolution = inputResolution;
     inputResolutionController =
-        input.add(guiState.input, 'inputResolution', inputResolutionArray);
+      input.add(guiState.input, 'inputResolution', inputResolutionArray);
     inputResolutionController.onChange(function(inputResolution) {
       guiState.changeToInputResolution = inputResolution;
     });
