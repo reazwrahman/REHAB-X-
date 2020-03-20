@@ -15,7 +15,7 @@
 ```sh
 cd rehab-x
 ```
-2. Installs DEPENDENCIES, which adds 'node_modules' and 'yarn.lock' file to folder
+2. Installs DEPENDENCIES in json file.
 ```sh
 yarn
 ```
