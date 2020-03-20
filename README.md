@@ -19,35 +19,7 @@ cd rehab-x
 ```sh
 yarn
 ```
-```sh
-yarn build && yarn yalc publish
-```
-```sh
-cd demos
-```
-3. Install DEPENDENCIES again
-```sh
-yarn
-```
-4. Links the local posenet to the demos
-```sh
-yarn yalc link @tensorflow-models/posenet
-```
-5. Finally, enjoy your new toy!
-```sh
-yarn watch
-```
-### Installing Exercise counter
-
-1. Use terminal and enter commands
-```sh
-cd rehab-x/exercise
-```
-2. Installs DEPENDENCIES,
-```sh
-yarn
-```
 3. Enjoy!
 ```sh
-yarn watch
+yarn start
 ```
