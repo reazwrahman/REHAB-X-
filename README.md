@@ -7,7 +7,11 @@
     - test out the squat counting model with the javascript model
     - experiment with the tf pose python model for counting press and squat
   
+  
+  
 ### Using https://create-react-app.dev/docs/documentation-intro
+  
+  
   
 ### Installing demos
 
