@@ -31,7 +31,6 @@ class Posenet extends Component{
               </p>
           </div>
       </div>
-      <script src="camera.js"></script>
       </div>
     );
   }
