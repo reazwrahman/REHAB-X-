@@ -1,9 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from "react";
+//import logo from './logo.svg';
 import './App.css';
-//import camera.html from './demos/camera.html';
+import Posenet from "./Posenet"
 
-function App() {
+class App extends Component{
+  render(){
+    return(
+      <div className="App">
+      <Posenet/>
+      </div>
+    );
+  }
+}
+/*function App() {
   return (
     <div className="App">
       <header className="App-header">
@@ -12,16 +21,17 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
-          //className="App-link"
-          href="camera.html"  // originally "https://reactjs.org"
-          //target="_blank"
-          //rel="noopener noreferrer"
+          className="App-link"
+          href="camera.html"  // "https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Get Started
         </a>
       </header>
+      <posenet/>
     </div>
   );
 }
-
+*/
 export default App;
