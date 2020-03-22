@@ -10,6 +10,8 @@
 
 ### Use this link https://create-react-app.dev/docs/documentation-intro
 
+### React YouTube series https://www.youtube.com/watch?v=o6BkYic4jQw&list=PLQg6GaokU5Cytkk1SXh8eYL9gBMKxh8rq&index=1
+
 ### Installing demos
 
 1. Use terminal and enter commands
