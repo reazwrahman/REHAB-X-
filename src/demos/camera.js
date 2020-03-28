@@ -14,11 +14,12 @@
  * limitations under the License.
  * =============================================================================
  */
-//import * as posenet from '@tensorflow-models/posenet';
+import * as posenet from '@tensorflow-models/posenet';
 import dat from 'dat.gui';
 import Stats from 'stats.js';
+import React from 'react'; //make this js into component
 
-import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI} from './demo_util'; //  tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss --REMOVED
+import {drawBoundingBox, drawKeypoints, drawSkeleton, isMobile} from './demo_util'; //  toggleLoadingUI,tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss --REMOVED
 
 ////////////////////////////// SQUAT import STUFF /////////////////////////////
 import { useEffect, useState } from 'react';
@@ -66,6 +67,7 @@ export function usePoseDetection(start, net, video, canvas) {
   );
   return pose;
 }
+
 
 export function useRepsCounter(pose, vptree) {
   const [counter] = useState([]);
@@ -257,6 +259,7 @@ function detectPoseInRealTime(net, video, onPose) {
   poseDetectionFrame();
 }
 
+
 function incrementPoseCount(counter, category) {
   if (counter.length === 0) {
     counter.push([category, 1]);
@@ -289,10 +292,11 @@ function countTotalReps(counter, numCategories) {
 }
 
 ///////////////////////////////// SQUAT END ///////////////////////////////////
-
+/*
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
+*/
 
 /**
  * Loads a the camera to be used in the demo
@@ -300,12 +304,12 @@ const stats = new Stats();
  */
 
 // A version of this is wrapped up in a class by React in Video.js
-async function setupCamera() {
+/*async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
         'Browser API navigator.mediaDevices.getUserMedia not available');
   }
-      // these 3 lines are different in Video.js
+      // these 3 lines are different in Video.js because its jsx in React
   const video = document.getElementById('video');
   video.width = videoWidth;
   video.height = videoHeight;
@@ -334,6 +338,53 @@ async function loadVideo() {
 
   return video;
 }
+
+class Camera extends React.Component {
+  setupCamera = async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error(
+        'Browser API navigator.mediaDevices.getUserMedia not available'
+      );
+    }
+
+    const { width, height } = this.props;
+
+    const video = this.props.videoRef.current;
+
+    const mobile = isMobile();
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: {
+        facingMode: 'user',
+        width: mobile ? undefined : width,
+        height: mobile ? undefined : height,
+      },
+    });
+    video.srcObject = stream;
+
+    return new Promise(resolve => {
+      video.onloadedmetadata = () => {
+        resolve(video);
+      };
+    });
+  };
+
+  startVideo = () => {
+    const video = this.props.videoRef.current;
+    video.play();
+  };
+  render() {
+    return (
+      <video
+        ref={this.props.videoRef}
+        width={this.props.width}
+        height={this.props.height}
+        playsInline
+      />
+    );
+  };
+};
+
 
 const defaultQuantBytes = 2;
 
@@ -372,10 +423,12 @@ const guiState = {
   },
   net: null,
 };
+*/
 
 /**
  * Sets up dat.gui controller on the top-right of the window
  */
+ /*
 function setupGui(cameras, net) {
   guiState.net = net;
 
@@ -386,6 +439,7 @@ function setupGui(cameras, net) {
   const gui = new dat.GUI({width: 300});
 
   let architectureController = null;
+  */
 /*  guiState[tryResNetButtonName] = function() {    // NOT NEEDED
     architectureController.setValue('ResNet50')
   };
@@ -396,9 +450,11 @@ function setupGui(cameras, net) {
   // The single-pose algorithm is faster and simpler but requires only one
   // person to be in the frame or results will be innaccurate. Multi-pose works
   // for more than 1 person
-  const algorithmController =
+/*  const algorithmController =
       gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
+*/
 
+/*
   // The input parameters have the most effect on accuracy and speed of the
   // network
   let input = gui.addFolder('Input');
@@ -547,19 +603,24 @@ function setupGui(cameras, net) {
     }
   });
 }
+*/
+
 
 /**
  * Sets up a frames per second panel on the top-left of the window
  */
+ /*
 function setupFPS() {
   stats.showPanel(0);  // 0: fps, 1: ms, 2: mb, 3+: custom
   document.getElementById('main').appendChild(stats.dom);
 }
-
+*/
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
  */
+
+ /*
 function detectPoseInRealTime(video, net) {
   const canvas = document.getElementById('output');
   const ctx = canvas.getContext('2d');
@@ -577,21 +638,21 @@ function detectPoseInRealTime(video, net) {
     if (guiState.changeToArchitecture) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
-      toggleLoadingUI(true);
+      //toggleLoadingUI(true);
       guiState.net = await posenet.load({
         architecture: guiState.changeToArchitecture,
         outputStride: guiState.outputStride,
         inputResolution: guiState.inputResolution,
         multiplier: guiState.multiplier,
       });
-      toggleLoadingUI(false);
+      //toggleLoadingUI(false);
       guiState.architecture = guiState.changeToArchitecture;
       guiState.changeToArchitecture = null;
     }
 
     if (guiState.changeToMultiplier) {
       guiState.net.dispose();
-      toggleLoadingUI(true);
+      //toggleLoadingUI(true);
       guiState.net = await posenet.load({
         architecture: guiState.architecture,
         outputStride: guiState.outputStride,
@@ -599,7 +660,7 @@ function detectPoseInRealTime(video, net) {
         multiplier: +guiState.changeToMultiplier,
         quantBytes: guiState.quantBytes
       });
-      toggleLoadingUI(false);
+      //toggleLoadingUI(false);
       guiState.multiplier = +guiState.changeToMultiplier;
       guiState.changeToMultiplier = null;
     }
@@ -607,7 +668,7 @@ function detectPoseInRealTime(video, net) {
     if (guiState.changeToOutputStride) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
-      toggleLoadingUI(true);
+      //toggleLoadingUI(true);
       guiState.net = await posenet.load({
         architecture: guiState.architecture,
         outputStride: +guiState.changeToOutputStride,
@@ -615,7 +676,7 @@ function detectPoseInRealTime(video, net) {
         multiplier: guiState.multiplier,
         quantBytes: guiState.quantBytes
       });
-      toggleLoadingUI(false);
+      //toggleLoadingUI(false);
       guiState.outputStride = +guiState.changeToOutputStride;
       guiState.changeToOutputStride = null;
     }
@@ -623,7 +684,7 @@ function detectPoseInRealTime(video, net) {
     if (guiState.changeToInputResolution) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
-      toggleLoadingUI(true);
+      //toggleLoadingUI(true);
       guiState.net = await posenet.load({
         architecture: guiState.architecture,
         outputStride: guiState.outputStride,
@@ -631,7 +692,7 @@ function detectPoseInRealTime(video, net) {
         multiplier: guiState.multiplier,
         quantBytes: guiState.quantBytes
       });
-      toggleLoadingUI(false);
+      //toggleLoadingUI(false);
       guiState.inputResolution = +guiState.changeToInputResolution;
       guiState.changeToInputResolution = null;
     }
@@ -639,7 +700,7 @@ function detectPoseInRealTime(video, net) {
     if (guiState.changeToQuantBytes) {
       // Important to purge variables and free up GPU memory
       guiState.net.dispose();
-      toggleLoadingUI(true);
+      //toggleLoadingUI(true);
       guiState.net = await posenet.load({
         architecture: guiState.architecture,
         outputStride: guiState.outputStride,
@@ -647,7 +708,7 @@ function detectPoseInRealTime(video, net) {
         multiplier: guiState.multiplier,
         quantBytes: guiState.changeToQuantBytes
       });
-      toggleLoadingUI(false);
+      //toggleLoadingUI(false);
       guiState.quantBytes = guiState.changeToQuantBytes;
       guiState.changeToQuantBytes = null;
     }
@@ -718,40 +779,42 @@ function detectPoseInRealTime(video, net) {
 
   poseDetectionFrame();
 }
+*/
+
 
 /**
  * Kicks off the demo by loading the posenet model, finding and loading
  * available camera devices, and setting off the detectPoseInRealTime function.
  */
-export async function bindPage() {
-  toggleLoadingUI(true);
-  const net = await posenet.load({
-    architecture: guiState.input.architecture,
-    outputStride: guiState.input.outputStride,
-    inputResolution: guiState.input.inputResolution,
-    multiplier: guiState.input.multiplier,
-    quantBytes: guiState.input.quantBytes
-  });
-  toggleLoadingUI(false);
 
-  let video;
+//export async function bindPage() {
+  //toggleLoadingUI(true);
+  //const net = await posenet.load({
+    //architecture: guiState.input.architecture,
+    //outputStride: guiState.input.outputStride,
+    //inputResolution: guiState.input.inputResolution,
+    //multiplier: guiState.input.multiplier,
+    //quantBytes: guiState.input.quantBytes
+  //});
+  //toggleLoadingUI(false);
 
-  try {
-    video = await loadVideo();
-  } catch (e) {
-    let info = document.getElementById('info');
-    info.textContent = 'this browser does not support video capture,' +
-        'or this device does not have a camera';
-    info.style.display = 'block';
-    throw e;
-  }
+//  let video;
 
-  setupGui([], net);
-  setupFPS();
-  detectPoseInRealTime(video, net);
-}
+//*  try {
+//    video = await loadVideo();
+//  } catch (e) {
+//    let info = document.getElementById('info');
+//    info.textContent = 'this browser does not support video capture,' +
+//        'or this device does not have a camera';
+//    info.style.display = 'block';
+//    throw e;
+//  }
 
-navigator.getUserMedia = navigator.getUserMedia ||
-    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+//  setupGui([], net);
+//  setupFPS();
+//  detectPoseInRealTime(video, net);
+//}
+//navigator.getUserMedia = navigator.getUserMedia ||
+//    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 // kick off the demo
-bindPage();
+//bindPage();

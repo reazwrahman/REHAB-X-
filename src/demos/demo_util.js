@@ -14,8 +14,9 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as posenet from '@tensorflow-models/posenet';
+//import * as posenet from '@tensorflow-models/posenet';
 import * as tf from '@tensorflow/tfjs';
+const posenet = require('@tensorflow-models/posenet') // as per React
 
 const color = '#05ed09';
 const boundingBoxColor = 'red';
@@ -65,8 +66,7 @@ export function updateTryResNetButtonDatGuiCss() {
 /**
  * Toggles between the loading UI and the main canvas UI.
  */
-export function toggleLoadingUI(
-    showLoadingUI, loadingDivId = 'loading', mainDivId = 'main') {
+export function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'main') {
   if (showLoadingUI) {
     document.getElementById(loadingDivId).style.display = 'block';
     document.getElementById(mainDivId).style.display = 'none';

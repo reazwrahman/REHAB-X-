@@ -1,17 +1,22 @@
 import React, {Component} from "react";
 //import logo from './logo.svg';
 import './App.css';
-import Posenet from "./Posenet"
+import Loading from "./demos/Loading" // created 'loading...'
+// create camera set up
+import Camera from "./demos/camera"
+import VideoSelector from "./demos/VideoSelector"
 
+//created this class
 class App extends Component{
   render(){
     return(
       <div className="App">
-      <Posenet/>
+      <VideoSelector />
       </div>
     );
   }
 }
+
 /*function App() {
   return (
     <div className="App">
@@ -29,7 +34,6 @@ class App extends Component{
           Get Started
         </a>
       </header>
-      <posenet/>
     </div>
   );
 }

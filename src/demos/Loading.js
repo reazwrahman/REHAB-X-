@@ -2,7 +2,7 @@ import React, {Component} from "react";
 
 // This .js file replaces 'camera.html' and load posenet
 
-class Posenet extends Component{
+class Loading extends Component{
   render(){
     return(
       <div>
@@ -36,4 +36,4 @@ class Posenet extends Component{
   }
 }
 
-export default Posenet
+export default Loading
