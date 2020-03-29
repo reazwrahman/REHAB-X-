@@ -17,6 +17,7 @@ const minConsecutivePoses = 10;
 
 export async function loadPoseData() {
   const net = await posenet.load();
+  //console.log(net)
   const poseData = await buildPoseData(net, imagePaths);
   const vptree = await buildVPTree(poseData);
   return { net, vptree };

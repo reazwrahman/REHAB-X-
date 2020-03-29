@@ -3,12 +3,13 @@ import { toPairs } from 'lodash';
 import importAll from 'import-all.macro';
 
 import Video from './Video';
+
 import {
   loadPoseData,
   usePoseDetection,
   useRepsCounter,
   mediaSize,
-} from './poseUtils';
+} from './poseUtils'; //poseUtils
 
 const videoFiles = toPairs(importAll.sync('../videos/**/*.mov'));
 
@@ -69,6 +70,12 @@ function MediaPose({ src, poseData }) {
         onClick={() => setPlay(true)}
       >
         START
+      </button>
+      <button //doesn't work ... yet
+        style={{ height: 40, width: 100, margin: 'auto' }}
+        onClick={() => setPlay(false)}
+      >
+        PAUSE
       </button>
     </div>
   );

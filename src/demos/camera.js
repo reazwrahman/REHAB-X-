@@ -204,7 +204,7 @@ function normalizeKeypoints(pose) {
 
   const normalizedPoints = pose.keypoints.map(keypoint => {
     return {
-      keypoint, //////////////////////////////////////// removed 3 dots infront
+      ...keypoint,
       normalizedPosition: {
         x: keypoint.position.x - boundingBox.minX,
         y: keypoint.position.y - boundingBox.minY,
@@ -292,11 +292,11 @@ function countTotalReps(counter, numCategories) {
 }
 
 ///////////////////////////////// SQUAT END ///////////////////////////////////
-/*
+
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
-*/
+
 
 /**
  * Loads a the camera to be used in the demo
@@ -304,7 +304,7 @@ const stats = new Stats();
  */
 
 // A version of this is wrapped up in a class by React in Video.js
-/*async function setupCamera() {
+async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
         'Browser API navigator.mediaDevices.getUserMedia not available');
@@ -423,12 +423,12 @@ const guiState = {
   },
   net: null,
 };
-*/
+
 
 /**
  * Sets up dat.gui controller on the top-right of the window
  */
- /*
+
 function setupGui(cameras, net) {
   guiState.net = net;
 
@@ -450,11 +450,11 @@ function setupGui(cameras, net) {
   // The single-pose algorithm is faster and simpler but requires only one
   // person to be in the frame or results will be innaccurate. Multi-pose works
   // for more than 1 person
-/*  const algorithmController =
+  const algorithmController =
       gui.add(guiState, 'algorithm', ['single-pose', 'multi-pose']);
-*/
 
-/*
+
+
   // The input parameters have the most effect on accuracy and speed of the
   // network
   let input = gui.addFolder('Input');
@@ -603,24 +603,24 @@ function setupGui(cameras, net) {
     }
   });
 }
-*/
+
 
 
 /**
  * Sets up a frames per second panel on the top-left of the window
  */
- /*
+
 function setupFPS() {
   stats.showPanel(0);  // 0: fps, 1: ms, 2: mb, 3+: custom
   document.getElementById('main').appendChild(stats.dom);
 }
-*/
+
 /**
  * Feeds an image to posenet to estimate poses - this is where the magic
  * happens. This function loops with a requestAnimationFrame method.
  */
 
- /*
+
 function detectPoseInRealTime(video, net) {
   const canvas = document.getElementById('output');
   const ctx = canvas.getContext('2d');
@@ -779,7 +779,7 @@ function detectPoseInRealTime(video, net) {
 
   poseDetectionFrame();
 }
-*/
+
 
 
 /**
@@ -787,34 +787,34 @@ function detectPoseInRealTime(video, net) {
  * available camera devices, and setting off the detectPoseInRealTime function.
  */
 
-//export async function bindPage() {
-  //toggleLoadingUI(true);
-  //const net = await posenet.load({
-    //architecture: guiState.input.architecture,
-    //outputStride: guiState.input.outputStride,
-    //inputResolution: guiState.input.inputResolution,
-    //multiplier: guiState.input.multiplier,
-    //quantBytes: guiState.input.quantBytes
-  //});
-  //toggleLoadingUI(false);
+export async function bindPage() {
+  toggleLoadingUI(true);
+  const net = await posenet.load({
+    architecture: guiState.input.architecture,
+    outputStride: guiState.input.outputStride,
+    inputResolution: guiState.input.inputResolution,
+    multiplier: guiState.input.multiplier,
+    quantBytes: guiState.input.quantBytes
+  });
+  toggleLoadingUI(false);
 
-//  let video;
+  let video;
 
-//*  try {
-//    video = await loadVideo();
-//  } catch (e) {
-//    let info = document.getElementById('info');
-//    info.textContent = 'this browser does not support video capture,' +
-//        'or this device does not have a camera';
-//    info.style.display = 'block';
-//    throw e;
-//  }
+*  try {
+    video = await loadVideo();
+  } catch (e) {
+    let info = document.getElementById('info');
+    info.textContent = 'this browser does not support video capture,' +
+        'or this device does not have a camera';
+    info.style.display = 'block';
+    throw e;
+  }
 
-//  setupGui([], net);
-//  setupFPS();
-//  detectPoseInRealTime(video, net);
-//}
-//navigator.getUserMedia = navigator.getUserMedia ||
-//    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  setupGui([], net);
+  setupFPS();
+  detectPoseInRealTime(video, net);
+}
+navigator.getUserMedia = navigator.getUserMedia ||
+    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 // kick off the demo
-//bindPage();
+bindPage();

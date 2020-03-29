@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 //import logo from './logo.svg';
 import './App.css';
-import Loading from "./demos/Loading" // created 'loading...'
+//import Loading from "./demos/Loading" // created 'loading...'
 // create camera set up
-import Camera from "./demos/camera"
+//import Camera from "./demos/camera"
 import VideoSelector from "./demos/VideoSelector"
 
 //created this class

@@ -18,9 +18,9 @@
 import * as tf from '@tensorflow/tfjs';
 const posenet = require('@tensorflow-models/posenet') // as per React
 
-const color = '#05ed09';
+const color = '#05ed09'; //lime green
 const boundingBoxColor = 'red';
-const lineWidth = 5;
+const lineWidth = 2;
 
 /* NOT being called by 'camera.js' because its NOT needed /////////////////////
 export const tryResNetButtonName = 'tryResNetButton';
@@ -45,7 +45,7 @@ function setDatGuiPropertyCss(propertyText, liCssString, spanCssString = '') {
   var spans = document.getElementsByClassName('property-name');
   for (var i = 0; i < spans.length; i++) {
     var text = spans[i].textContent || spans[i].innerText;
-    if (text == propertyText) {
+    if (text === propertyText) {
       spans[i].parentNode.parentNode.style = liCssString;
       if (spanCssString !== '') {
         spans[i].style = spanCssString;
@@ -137,7 +137,7 @@ export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
  * Draw pose keypoints onto a canvas
  */
 export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-/*  for (let i = 0; i < keypoints.length; i++) {
+ /*for (let i = 0; i < keypoints.length; i++) {
     const keypoint = keypoints[i];
 
     if (keypoint.score < minConfidence) {
@@ -156,17 +156,17 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
 
   if (rightWrist.score > minConfidence) {
     const {y, x} = rightWrist.position;
-    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight
+    drawPoint(ctx, y * scale, x * scale, 5, color); //colorRight
   }
 
   if (rightElbow.score > minConfidence) {
     const {y, x} = rightElbow.position;
-    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight ELBOW
+    drawPoint(ctx, y * scale, x * scale, 5, color); //colorRight ELBOW
   }
 
   if (rightShoulder.score > minConfidence) {
     const {y, x} = rightShoulder.position;
-    drawPoint(ctx, y * scale, x * scale, 10, color); //colorRight SHOULDER
+    drawPoint(ctx, y * scale, x * scale, 5, color); //colorRight SHOULDER
   }
 ///////////////////////// END version 0 ////////////////////////////////////////
 
