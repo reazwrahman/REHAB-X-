@@ -439,7 +439,7 @@ function setupGui(cameras, net) {
   const gui = new dat.GUI({width: 300});
 
   let architectureController = null;
-  */
+  
 /*  guiState[tryResNetButtonName] = function() {    // NOT NEEDED
     architectureController.setValue('ResNet50')
   };

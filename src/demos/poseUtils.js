@@ -15,9 +15,15 @@ const flipHorizontal = false;
 const minPartConfidence = 0.1;
 const minConsecutivePoses = 10;
 
+//added array inside load() to improve tracking
 export async function loadPoseData() {
-  const net = await posenet.load();
-  //console.log(net)
+  const net = await posenet.load({
+      architecture: 'MobileNetV1',
+      outputStride: 16,
+      inputResolution: 300,
+      multiplier: 0.75
+});
+  console.log(net)
   const poseData = await buildPoseData(net, imagePaths);
   const vptree = await buildVPTree(poseData);
   return { net, vptree };
@@ -196,6 +202,7 @@ function l2normPoseVector(vector) {
   return normalized;
 }
 
+//FOR VIDEOS recordings
 async function estimatePoseOnImage(net, imagePath) {
   // load the posenet model from a checkpoint
   const imageElement = await loadImage(imagePath);

@@ -137,7 +137,7 @@ export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
  * Draw pose keypoints onto a canvas
  */
 export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
- /*for (let i = 0; i < keypoints.length; i++) {
+ for (let i = 0; i < keypoints.length; i++) {
     const keypoint = keypoints[i];
 
     if (keypoint.score < minConfidence) {
@@ -145,10 +145,10 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     }
 
     const {y, x} = keypoint.position;
-    drawPoint(ctx, y * scale, x * scale, 6, color); //////////////////////////// originally -- 3
+    drawPoint(ctx, y * scale, x * scale, 3, color); //////////////////////////// originally -- 3
   }
-*/
 
+/*
 ////////////////////// drawKeypoints FROM version 0 ////////////////////////////
   let rightWrist = keypoints.find(point => point.part === 'rightWrist');
   let rightElbow = keypoints.find(point => point.part === 'rightElbow');
@@ -169,7 +169,7 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     drawPoint(ctx, y * scale, x * scale, 5, color); //colorRight SHOULDER
   }
 ///////////////////////// END version 0 ////////////////////////////////////////
-
+*/
 }
 
 /**

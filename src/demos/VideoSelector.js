@@ -9,12 +9,13 @@ import {
   usePoseDetection,
   useRepsCounter,
   mediaSize,
-} from './poseUtils'; //poseUtils
+} from './poseUtils';
 
 const videoFiles = toPairs(importAll.sync('../videos/**/*.mov'));
 
 function MediaPose({ src, poseData }) {
   const [play, setPlay] = useState(false);
+  const [pause, setPause] = useState(true);
   const canvasRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -65,19 +66,24 @@ function MediaPose({ src, poseData }) {
           videoRef={videoRef}
         />
       </div>
+
       <button
         style={{ height: 40, width: 100, margin: 'auto' }}
         onClick={() => setPlay(true)}
       >
         START
       </button>
-      <button //doesn't work ... yet
+
+      <button
         style={{ height: 40, width: 100, margin: 'auto' }}
-        onClick={() => setPlay(false)}
+        onClick={() => setPlay(true)}
       >
-        PAUSE
+        RESET
       </button>
+
+
     </div>
+
   );
 }
 
