@@ -4,7 +4,7 @@ import './App.css';
 //import Loading from "./demos/Loading" // created 'loading...'
 // create camera set up
 //import Camera from "./demos/camera"
-import VideoSelector from "./demos/VideoSelector"
+import VideoSelector from "./components/VideoSelector"
 
 //created this class
 class App extends Component{
